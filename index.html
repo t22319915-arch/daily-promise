@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>天父每日應許——每日靈修</title>
+<meta name="description" content="天父每日應許——每日靈修：每天一則聖經應許、信息、禱告與讀經進度。開啟網頁即顯示今日內容，也可選擇其他日期閱讀。台中北屯貴格會。">
+<meta name="theme-color" content="#B5443C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="天父每日應許——每日靈修">
+<meta property="og:description" content="每天一則聖經應許、信息、禱告與讀經進度。開啟即顯示今日內容，也可選擇其他日期。">
+<meta property="og:image" content="https://t22319915-arch.github.io/daily-promise/images/church.jpg">
+<meta property="og:url" content="https://t22319915-arch.github.io/daily-promise/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#content">跳至今日內容</a>
+<header class="topbar">
+<img class="logo" src="images/logo.png" alt="台中北屯貴格會標誌" width="52" height="52">
+<div class="titles">
+<h1>天父每日應許</h1>
+<p>每日靈修 · 台中北屯貴格會</p>
+</div>
+</header>
+<section class="hero">
+<img class="hero-photo" src="images/church.jpg" alt="台中北屯貴格會教堂外觀">
+<div class="hero-text">
+<p class="kicker" id="heroKicker">載入中</p>
+<h2 class="hero-date" id="heroDate">…</h2>
+</div>
+</section>
+<section class="controls" aria-label="選擇日期">
+<label>月份 <select id="selMonth"></select></label>
+<label>日期 <select id="selDay"></select></label>
+<div class="btnrow">
+<button type="button" id="btnPrev">前一天</button>
+<button type="button" id="btnToday" class="primary">今天</button>
+<button type="button" id="btnNext">後一天</button>
+</div>
+</section>
+<main id="content">
+<p id="loading">內容載入中，請稍候…</p>
+<p id="loadError" hidden>抱歉，內容載入失敗，請檢查網路連線後重新整理。</p>
+<article class="card" id="card" hidden aria-live="polite">
+<p class="opening" id="fOpening"></p>
+<p class="dateline"><span id="fDate"></span><span class="n" id="fN"></span></p>
+<section aria-label="今日經文">
+<h3>今日經文</h3>
+<blockquote id="fScripture"></blockquote>
+<p><span class="ref" id="fRef"></span></p>
+</section>
+<section aria-label="應許信息">
+<h3>應許信息</h3>
+<div id="fMessage"></div>
+<div id="fClosing"></div>
+</section>
+<section aria-label="禱告">
+<h3>禱告</h3>
+<p id="fPrayer"></p>
+</section>
+<section aria-label="讀經進度">
+<h3>讀經進度</h3>
+<ul class="readings">
+<li id="liR1">兩年讀完聖經 · 第一年：<span id="fR1"></span></li>
+<li id="liR2">兩年讀完聖經 · 第二年：<span id="fR2"></span></li>
+</ul>
+</section>
+</article>
+</main>
+<section class="share" aria-label="分享今日內容">
+<h3>分享</h3>
+<div class="btnrow">
+<button type="button" id="btnCopy">複製連結</button>
+<button type="button" id="btnLine" class="line">LINE 分享</button>
+<button type="button" id="btnFb" class="fb">Facebook 分享</button>
+</div>
+<p class="copy-msg" id="copyMsg" aria-live="polite" hidden>連結已複製，可以傳給朋友了</p>
+</section>
+<footer>
+<div class="covers">
+<img src="images/cover-coffee.jpg" alt="靈修溫馨圖：咖啡杯">
+<img src="images/cover-stars.jpg" alt="靈修圖：星空下讀經">
+</div>
+<p>天父每日應許 · 文字：微僕牧聲 / 林和明</p>
+<p><a href="http://tcfc.tw/">北屯貴格會</a> · <a href="http://tcfc.tw/ed/">全年網站</a></p>
+</footer>
+</body>
+</html>
