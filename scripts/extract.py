@@ -157,7 +157,10 @@ total = len(all_days)
 ns = sorted([r["n"] for r in all_days.values()])
 missing_n = [x for x in range(1, 367) if x not in ns]
 GFIRST = ["1-1", "1-25", "2-12", "2-17", "11-23", "12-25"]
+DROP_SUB = ["1-25", "2-1", "2-12", "2-17", "11-23"]
 for kk, vv in all_days.items():
+    if kk in DROP_SUB:
+        vv["subtitle"] = []
     if kk in GFIRST:
         vv["opening"] = [vv["greeting"]] + vv["subtitle"] + [vv["intro"]]
     elif vv["subtitle"]:
