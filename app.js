@@ -3,6 +3,7 @@
 var DIM = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 var DATA = null;
 var cur = { m: 1, d: 1 };
+var userPicked = false;
 function $(id) { return document.getElementById(id); }
 function setText(id, text) { $(id).textContent = text; }
 /* 以亞洲台北時區決定今天日期 */
@@ -33,6 +34,25 @@ function parseHash() {
   if (!(m >= 1 && m <= 12)) { return null; }
   if (!(d >= 1 && d <= DIM[m - 1])) { return null; }
   return { m: m, d: d };
+}
+/* 顯示日期是否為台北今天 */
+function isToday(m, d) {
+  var t = taiwanToday();
+  return t.m === m && t.d === d;
+}
+/* 非今天顯示提示條；今天則隱藏 */
+function updateBanner(m, d) {
+  var show = !isToday(m, d);
+  $("offBanner").hidden = !show;
+  if (show) { setText("offBannerText", "您正在看 " + m + "月" + d + "日的內容"); }
+}
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+/* 頁尾除錯資訊：裝置時間、時區與換算結果 */
+function updateDebug(m, d) {
+  var now = new Date();
+  var off = -now.getTimezoneOffset() / 60;
+  var txt = "裝置時間：" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate() + " " + pad2(now.getHours()) + ":" + pad2(now.getMinutes()) + "（UTC" + (off >= 0 ? "+" : "") + off + "） · 本站顯示（台北）：" + m + "月" + d + "日";
+  setText("debugInfo", txt);
 }
 function fillMonth() {
   var sel = $("selMonth");
@@ -103,8 +123,11 @@ function render(m, d) {
   if (location.hash !== "#" + m + "-" + d) {
     history.replaceState(null, "", "#" + m + "-" + d);
   }
+  updateBanner(m, d);
+  updateDebug(m, d);
 }
 function step(delta) {
+  userPicked = true;
   var m = cur.m, d = cur.d + delta;
   if (d < 1) { m = m - 1; if (m < 1) { m = 12; } d = DIM[m - 1]; }
   if (d > DIM[m - 1]) { d = 1; m = m + 1; if (m > 12) { m = 1; } }
@@ -144,18 +167,27 @@ function copyLink() {
 function init() {
   fillMonth();
   var start = parseHash() || taiwanToday();
+  userPicked = !!parseHash();
   render(start.m, start.d);
   $("selMonth").addEventListener("change", function (e) {
+    userPicked = true;
     var m = parseInt(e.target.value, 10);
     fillDay(m, true);
     render(m, parseInt($("selDay").value, 10));
   });
   $("selDay").addEventListener("change", function (e) {
+    userPicked = true;
     render(parseInt($("selMonth").value, 10), parseInt(e.target.value, 10));
   });
   $("btnPrev").addEventListener("click", function () { step(-1); });
   $("btnNext").addEventListener("click", function () { step(1); });
   $("btnToday").addEventListener("click", function () {
+    userPicked = false;
+    var t = taiwanToday();
+    render(t.m, t.d);
+  });
+  $("btnBackToday").addEventListener("click", function () {
+    userPicked = false;
     var t = taiwanToday();
     render(t.m, t.d);
   });
@@ -164,7 +196,13 @@ function init() {
   $("btnFb").addEventListener("click", shareFb);
   window.addEventListener("hashchange", function () {
     var h = parseHash();
-    if (h && (h.m !== cur.m || h.d !== cur.d)) { render(h.m, h.d); }
+    if (h && (h.m !== cur.m || h.d !== cur.d)) { userPicked = true; render(h.m, h.d); }
+  });
+  window.addEventListener("pageshow", function (e) {
+    if (e && e.persisted && !userPicked) {
+      var t = taiwanToday();
+      if (t.m !== cur.m || t.d !== cur.d) { render(t.m, t.d); }
+    }
   });
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {

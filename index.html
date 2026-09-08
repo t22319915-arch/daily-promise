@@ -43,6 +43,10 @@
 <main id="content">
 <p id="loading">內容載入中，請稍候…</p>
 <p id="loadError" hidden>抱歉，內容載入失敗，請檢查網路連線後重新整理。</p>
+<div class="off-banner" id="offBanner" hidden>
+<span id="offBannerText"></span>
+<button type="button" id="btnBackToday">回到今天</button>
+</div>
 <article class="card" id="card" hidden aria-live="polite">
 <p class="opening" id="fOpening"></p>
 <p class="dateline"><span id="fDate"></span><span class="n" id="fN"></span></p>
@@ -85,6 +89,7 @@
 </div>
 <p>天父每日應許 · 文字：微僕牧聲 / 林和明</p>
 <p><a href="http://tcfc.tw/">北屯貴格會</a> · <a href="http://tcfc.tw/ed/">全年網站</a></p>
+<p class="debug" id="debugInfo"></p>
 </footer>
 </body>
 </html>
